@@ -20,7 +20,7 @@ Este proyecto permite visualizar cómo distintos parámetros como la sensibilida
 ---
 ```
 ## Estructura del proyecto
-📁 MA1002B/
+📁 MA1002B-Vehiculos-Autonomos/
 ├── simulacion_vehiculos_autonomos.py # Archivo de la simulación de los vehículos
 ├── reporte_final.pdf # Explicación detallada de la simulación (por incluir)
 ├── media/
