@@ -16,6 +16,7 @@ Incluye:
 - Menú interactivo para modificar parámetros del sistema.
 
 Este proyecto permite visualizar cómo distintos parámetros como la sensibilidad al espaciamiento, distancia inicial entre los vehículos, la cantidad de vehículos, e incluso la aceleración de los vehículos entre ellos pueden influenciar en el comportamiento del sistema. 
+
 ---
 ```
 ## Estructura del proyecto
