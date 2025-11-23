@@ -28,7 +28,7 @@ Este proyecto permite visualizar cómo distintos parámetros como la sensibilida
 └── README.md # Este archivo
 ```
 --- 
-## 🚗 Animación 2D de la simulación
+## Animación 2D de la simulación
 ![Simulación de autos](media/car_sim.gif)
 
 ---
