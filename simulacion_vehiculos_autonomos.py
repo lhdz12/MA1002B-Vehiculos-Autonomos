@@ -9,6 +9,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.animation as animation
 
 # parametros globales. 
 alpha = 0.5 # sensibilidad al espaciamiento 
@@ -125,19 +126,55 @@ def simular():
     plt.legend()
     plt.grid()
     plt.show()
+    
+    return history, times
+
+# como soy increíble, voy a intentar hacer una simulación 2d de cómo se ven los carritos. 
+def animar(history, times):
+    fig, ax = plt.subplots(figsize=(10,4))
+    ax.set_xlim(np.min(history[:,::2]) - 5, np.max(history[:,::2]) + 5)
+    ax.set_ylim(-2, 2)
+    ax.set_xlabel("Posición (m)")
+    ax.set_yticks([])
+    ax.set_title("Animación 2D de vehículos")
+
+    # Creamos un objeto tipo "scatter" para cada auto
+    puntos = []
+    colors = sns.color_palette("pastel", N)
+    for i in range(N):
+        punto, = ax.plot([], [], "o", color=colors[i], markersize=10)
+        puntos.append(punto)
+
+    # Función que actualiza cada frame
+    def update(frame):
+        for i in range(N):
+            x = history[frame, 2*i]     # posición del auto i
+            puntos[i].set_data([x], [0])   # <- CORREGIDO
+        return puntos
+
+
+    ani = animation.FuncAnimation(
+        fig, update, frames=len(times), interval=20, blit=True
+    )
+
+    ani._resize_id = None   # ← FIX para Windows + Tkinter
+
+    plt.show()
+
 
 def main():
     global t_leader
 
     option = 0
-    while option != 6:
+    while option != 7:
         print("\n---------- Simulador de Vehículos Autónomos ----------")
         print(f"1. Correr simulación\n   α={alpha}, β={beta}, δ={delta}, γ={gamma}, d0={dinicial}")
         print(f"2. Cambiar parámetros")
         print(f"3. Cambiar número de vehículos (actual={N})")
         print(f"4. Cambiar tiempo y paso (t0={t0}, tf={tf}, h={h})")
         print(f"5. Cambiar tiempo de aceleración del líder (actual={t_leader})")
-        print("6. Salir")
+        print("6. Visualizar simulación 2D de los carros")
+        print("7. Salir")
         option = int(input("Opción: "))
 
         if option == 1:
@@ -150,6 +187,9 @@ def main():
             tiempo_paso()
         elif option == 5:
             t_leader = float(input("Ingresa nuevo tiempo de aceleración del líder: "))
+        elif option == 6: 
+            history, times = simular()
+            animar(history, times)
         else:
             print("Gracias por usar el simulador <3")
 
