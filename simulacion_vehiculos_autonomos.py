@@ -129,6 +129,20 @@ def simular():
     
     return history, times
 
+def detectar_choque(history, tol=0.1):
+    # detector de choques. Regresa True y demás si hay choque entre autos i y j en un frame. 
+    # tol es la distancia mínima para considerarse un choque. 
+    frames = history.shape[0]
+    N_autos = history.shape[1] // 2
+
+    for f in range(frames):
+        posiciones = history[f, 0::2]  # x0, x1, x2, ...
+        for i in range(N_autos):
+            for j in range(i+1, N_autos):
+                if abs(posiciones[i] - posiciones[j]) < tol:
+                    return True, f, i, j
+    return False, None, None, None
+
 # como soy increíble, voy a intentar hacer una simulación 2d de cómo se ven los carritos. 
 def animar(history, times):
     fig, ax = plt.subplots(figsize=(10,4))
@@ -145,22 +159,17 @@ def animar(history, times):
         punto, = ax.plot([], [], "o", color=colors[i], markersize=10)
         puntos.append(punto)
 
-    # Función que actualiza cada frame
+    # actualización de cada frame
     def update(frame):
         for i in range(N):
-            x = history[frame, 2*i]     # posición del auto i
-            puntos[i].set_data([x], [0])   # <- CORREGIDO
+            x = history[frame, 2*i] # posición del auto i
+            puntos[i].set_data([x], [0])
         return puntos
 
-
     ani = animation.FuncAnimation(
-        fig, update, frames=len(times), interval=20, blit=True
-    )
-
-    ani._resize_id = None   # ← FIX para Windows + Tkinter
-
+        fig, update, frames=len(times), interval=20, blit=True)
+    ani._resize_id = None   
     plt.show()
-
 
 def main():
     global t_leader
@@ -189,7 +198,16 @@ def main():
             t_leader = float(input("Ingresa nuevo tiempo de aceleración del líder: "))
         elif option == 6: 
             history, times = simular()
-            animar(history, times)
+            # detectamos si hay un choque antes de animar. 
+            choque, frame, i, j = detectar_choque(history)
+            if (choque):
+                print(f"Choque detectado entre Auto {i+1} y Auto {j+1} en t = {times[frame]:.2f} s")
+                print("¿Deseas continuar y visualizar?\n1. Sí\n2. No")
+                n = int(input())
+                if(n == 1): 
+                    animar(history, times)
+            else:
+                animar(history, times)
         else:
             print("Gracias por usar el simulador <3")
 
