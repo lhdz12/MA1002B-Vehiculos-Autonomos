@@ -161,9 +161,20 @@ def animar(history, times):
 
     # actualización de cada frame
     def update(frame):
+        # Detectar choque en este frame
+        posiciones = history[frame, 0::2]
         for i in range(N):
-            x = history[frame, 2*i] # posición del auto i
+            for j in range(i+1, N):
+                if abs(posiciones[i] - posiciones[j]) < 0.5:
+                    print(f"Choque entre Auto {i+1} y Auto {j+1} en t = {times[frame]:.2f} s")
+                    ani.event_source.stop()  
+                    return puntos
+
+        # Actualizar posiciones
+        for i in range(N):
+            x = history[frame, 2*i]
             puntos[i].set_data([x], [0])
+
         return puntos
 
     ani = animation.FuncAnimation(
@@ -198,16 +209,7 @@ def main():
             t_leader = float(input("Ingresa nuevo tiempo de aceleración del líder: "))
         elif option == 6: 
             history, times = simular()
-            # detectamos si hay un choque antes de animar. 
-            choque, frame, i, j = detectar_choque(history)
-            if (choque):
-                print(f"Choque detectado entre Auto {i+1} y Auto {j+1} en t = {times[frame]:.2f} s")
-                print("¿Deseas continuar y visualizar?\n1. Sí\n2. No")
-                n = int(input())
-                if(n == 1): 
-                    animar(history, times)
-            else:
-                animar(history, times)
+            animar(history, times)
         else:
             print("Gracias por usar el simulador <3")
 
