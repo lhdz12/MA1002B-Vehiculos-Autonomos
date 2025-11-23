@@ -6,7 +6,7 @@ Autores:
 - E. Alejandro Corral Rdz.
 ---
 ## Descripción
-Este proyecto implementa un simulador **numérico y visual** de una columna de vehículos autónomos usando un modelo básico de seguimiento. 
+Este proyecto implementa un simulador **numérico y visual** de una columna de vehículos autónomos usando un modelo básico de seguimiento, para la clase de Modelación de Sistemas con Ecuaciones Diferenciales **MA1002B**.
 
 Incluye: 
 - Integración numérica con Runge Kutta de 4to Orden
