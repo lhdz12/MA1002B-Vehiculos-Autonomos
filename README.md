@@ -22,7 +22,7 @@ Este proyecto permite visualizar cómo distintos parámetros como la sensibilida
 ## Estructura del proyecto
 📁 MA1002B-Vehiculos-Autonomos/
 ├── simulacion_vehiculos_autonomos.py # Archivo de la simulación de los vehículos
-├── reporte_final.pdf # Explicación detallada de la simulación (por incluir)
+├── reporte_final.pdf # Explicación detallada de la simulación
 ├── media/
 │ └── car_sim.gif # GIF que muestra la simulación en funcionamiento
 └── README.md # Este archivo
